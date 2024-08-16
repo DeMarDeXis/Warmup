@@ -1,0 +1,59 @@
+1. Как объявить и инициализировать map в Go?
+    Объявление:
+        var myMap map[string]int
+    Инициализация:
+        myMap = make(map[string]int)
+
+    Или короткая форма:
+        myMap := make(map[string]int)
+
+2. Как добавить элемент в map?
+    myMap["key1"] = 10
+
+3. Как проверить, существует ли ключ в map?
+    value, exists := myMap["key1"]
+    if exists {
+        fmt.Println("Key exists:", value)
+    } else {
+        fmt.Println("Key does not exist")
+    }
+4. Как удалить элемент из map?
+    delete(myMap, "key1")
+
+5. Почему порядок итерации по map не гарантирован?
+    Порядок итерации по map не гарантирован, потому что внутренняя реализация map в Go использует 
+    хеш-таблицу, и порядок обхода может меняться между разными вызовами.
+
+6. Что происходит при попытке записи в nil map?
+    При попытке записи в nil map происходит паника (panic):
+        var myMap map[string]int // myMap is nil
+        // myMap["key"] = 10 // panic: assignment to entry in nil map
+
+7. Можно ли сравнивать map напрямую с помощью ==?
+    Нет, map нельзя сравнивать напрямую с помощью оператора ==. Можно сравнивать только с nil:
+        var m1 map[string]int
+        var m2 map[string]int
+        fmt.Println(m1 == nil) // true
+        fmt.Println(m2 == nil) // true
+        // fmt.Println(m1 == m2) // invalid operation: m1 == m2 (map can only be compared to nil)
+
+8. Как реализован map внутри Go?
+"map" в Go реализован как хеш-таблица, что обеспечивает среднюю временную сложность O(1) для 
+основных операций (добавление, удаление, поиск).
+
+9. Как обеспечить потокобезопасность при использовании map?
+
+    map не является потокобезопасным. Для обеспечения потокобезопасности можно использовать 
+    синхронизацию, например, с помощью sync.RWMutex:
+        var mu sync.RWMutex
+        myMap := make(map[string]int)
+
+        // Запись в map
+        mu.Lock()
+        myMap["key1"] = 10
+        mu.Unlock()
+
+        // Чтение из map
+        mu.RLock()
+        value := myMap["key1"]
+        mu.RUnlock()

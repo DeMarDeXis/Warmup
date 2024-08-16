@@ -1,0 +1,4 @@
+1. select - block, unblock, defaul
+// таймер всегда выносим
+2. time.After
+3. graceful shutdown
